@@ -1,4 +1,10 @@
+// sending return props.remove(props.key); to <ToDoItem key={index} remove={deleteList} text={todoItem} />
+// sending parans to deleteList to make changes int parent component
+// check key while using mapping
+
 import React, { useState } from "react";
+
+import ToDoItem from "./ToDoItem";
 
 function App() {
   const [inputText, setInputText] = useState("");
@@ -10,10 +16,19 @@ function App() {
   }
 
   function addItem() {
-    setItems(prevItems => {
+    setItems((prevItems) => {
       return [...prevItems, inputText];
     });
     setInputText("");
+  }
+
+  function deleteList(key) {
+    console.log(key);
+    setItems((prevValue) => {
+      return prevValue.filter((element, index) => {
+        return index !== key;
+      });
+    });
   }
 
   return (
@@ -29,8 +44,13 @@ function App() {
       </div>
       <div>
         <ul>
-          {items.map(todoItem => (
-            <li>{todoItem}</li>
+          {items.map((todoItem, index) => (
+            <ToDoItem
+              key={index}
+              id={index}
+              remove={deleteList}
+              text={todoItem}
+            />
           ))}
         </ul>
       </div>
